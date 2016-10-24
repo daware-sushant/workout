@@ -1,0 +1,33 @@
+{
+  "name": "workout",
+  "scripts": {
+  },
+  "env": {
+    "CANVAS_CONSUMER_KEY": {
+      "required": true
+    },
+    "CANVAS_CONSUMER_SECRET": {
+      "required": true
+    },
+    "JAVA_OPTS": {
+      "required": true
+    },
+    "MAVEN_OPTS": {
+      "required": true
+    },
+    "PATH": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+
+  ]
+}
