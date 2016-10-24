@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<title>Workout Manager</title>
+		<link rel="stylesheet" type="text/css" media="all" href="css/timer.css">
+		<link rel="stylesheet" type="text/css" media="all" href="css/slider.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="js/jquery_005.js"></script> 
+		<script src="js/jquery_004.js"></script>
+		<script src="js/jquery_003.js"></script>
+		<script src="js/jquery_002.js"></script>
+		<script type="text/javascript" src="js/timer.js"></script>
+		
+		<script language="javascript">
+			var $j = jQuery.noConflict();
+			$j.getScript('js/timer.js',function(){
+				$j.getScript('js/saveworkout.js',function(){
+					loadSlider();
+				});
+			});
+			
+			jQuery(document).ready(function($) {
+				$j("#chkOmitInterval").click(function (){
+					totalTime();
+				});
+			});
+		</script>
+	</head>
+	<body onload=""> 
+		<!-- Top Bar Start -->
+		<div class="timermain">
+			<div class="top-bar">
+				<div class="top-bar-heading">Workout Timer</div>
+				<div class="top-bar-buttons" id="timerButtons">
+					<div style="float:left;">
+						<input type="button" class="button-active" name="btnBasic" id="btnBasic" value="BASIC">
+						<input type="button" class="button-inactive" name="btnAdv" id="btnAdv" value="ADVANCED">
+				   </div>
+				</div>
+				<div class="top-bar-buttons" id="listingButtons" style="display:none;">
+					<input type="button" class="button-active" name="btnBack" id="btnBack" value="Back">
+				</div>
+				<!--<div class="top-bar-logo">Cathe</div>-->
+			</div>
+		</div>
+		<!-- Top Bar End -->
+
+		<!-- Timer Div Start Here -->
+		<div class="timermain" id="timerDIV">
+			<div class="timermain">
+				<!-- Warm Up Div Start -->
+				<div class="timerbox color-yellow">
+					<div class="box-label">Warm Up</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('warmup','decTime')">&nbsp;</div>
+						<div class="box-timer-data" id="warmup">00:00</div>
+						<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('warmup','incTime')">&nbsp;</div>
+					</div>
+				</div>
+				<!-- Warm Up Div End -->
+				
+				<!-- High Intensity Div Start -->
+				<div class="timerbox color-green">
+					<div class="box-label">High Intensity</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('hit','decTime')">&nbsp;</div>
+						<div class="box-timer-data" id="hit">00:00</div>
+						<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('hit','incTime')">&nbsp;</div>
+					</div>
+				</div>
+				<!-- High Intensity Div End -->
+				
+				<!-- Low Intensity Div Start -->
+				<div class="timerbox color-orange">
+					<div class="box-label">Low Intensity</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('lit','decTime')">&nbsp;</div>
+						<div class="box-timer-data" id="lit">00:00</div>
+						<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('lit','incTime')">&nbsp;</div>
+					</div>
+				</div>
+				<!-- Low Intensity Div End -->
+				
+				<!-- Rest Div Start -->
+				<div class="timerbox color-red">
+					<div class="box-label">
+						<div style="float:left; width: 50px;">
+							Rest
+						</div>
+						<div style="float:right;width: 91px; display:none;" id="omitlastinterval">
+							<div style="float:left;cursor:pointer;padding-top: 3px;"><input type="checkbox" name="chkOmitInterval" id="chkOmitInterval" value="1"></div> 
+							<div style="float:left;width: 70px;;color:#000000; font-weight:bold;">Omit last</div>
+						</div>
+					</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('rest','decTime')">&nbsp;</div>
+						<div class="box-timer-data" id="rest">00:00</div>
+						<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('rest','incTime')">&nbsp;</div>
+					</div>
+				</div>
+				<!-- Rest Div End -->
+				
+				<!-- Rounds Div Start -->
+				<div class="timerbox color-gray">
+					<div class="box-label">Rounds</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('rounds','decRound')">&nbsp;</div>
+						<div class="box-timer-data" id="rounds">01</div>
+						<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('rounds','incRound')">&nbsp;</div>
+					</div>
+				</div>
+				<!-- Rounds Div End -->
+				
+				<!-- Cool Down Div Start -->
+				<div class="timerbox color-skyblue">
+					<div class="box-label">Cool Down</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('cooldown','decTime')">&nbsp;</div>
+						<div class="box-timer-data" id="cooldown">00:00</div>
+						<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('cooldown','incTime')">&nbsp;</div>
+					</div>
+				</div>
+				<!-- Cool Down Div End -->
+				
+				<!-- Total Time Div Start -->
+				<div class="timerbox color-black">
+					<div class="box-label">Total Time</div>
+					<div style="clear:both;"></div>
+					<div class="box-timer">
+						<div class="inc-dec">&nbsp;</div>
+						<div class="box-timer-data" id="totalTime">00:00</div>
+						<div class="inc-dec">&nbsp;</div>
+					</div>
+				</div>
+				<!-- Total Time Div End -->
+				
+				<div style="clear:both; height:5px;"></div>
+				
+				<!-- Advanced Div Start Here -->
+				<div class="timermain" id="advDiv" style="display:none;margin-bottom:5px;">
+					<!-- Blank Div Start -->
+					<div class="timerbox">
+						&nbsp;
+					</div>
+					<div class="timerbox">
+						&nbsp;
+					</div>
+					<!-- Blank Div End --> 
+					
+					<!-- Rest Bewteen Repeat Div Start -->
+					<div class="timerbox color-red" style="width: 250px;margin-left: 2.5%;">
+						<div class="box-label">Rest Bewteen Repeat</div>
+						<div style="clear:both;"></div>
+							<div class="box-timer">
+								<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('restbtwrepeat','decTime')">&nbsp;</div>
+								<div class="box-timer-data" id="restbtwrepeat">00:00</div>
+								<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('restbtwrepeat','incTime')">&nbsp;</div>
+							</div>
+					</div>
+					<!-- Rest Bewteen Repeat Div End -->
+					
+					<!-- Rounds Div Start -->
+					<div class="timerbox color-darkgray" style="width: 250px;">
+						<div class="box-label">Repeats</div>
+						<div style="clear:both;"></div>
+						<div class="box-timer">
+							<div class="inc-dec decrease-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('repeats','decRound')">&nbsp;</div>
+							<div class="box-timer-data" id="repeats">01</div>
+							<div class="inc-dec increase-sign" onmouseup="stopMouseEvent()" onmousedown="continuousEvent('repeats','incRound')">&nbsp;</div>
+						</div>
+					</div>
+					<!-- Rounds Div End -->
+				</div>
+				<!-- Advanced Div End -->
+			</div>
+			
+			
+			
+			<div style="clear:both;"></div>
+			
+			<div class="curr-timer">
+				<!-- Timer Div Start -->
+				<div class="curr-timer-left color-yellow" id="curr-color">
+					<div id='CurrentTimer' style="font-weight:bold; width:100%; float:left;">Warm Up</div>
+					<div style="clear:both;"></div>
+					<div id='timer' class="running-timer">00:00</div>
+				</div>
+				<!-- Timer Div End -->
+				
+				<!-- Remaining Data Start -->
+				<div class="curr-timer-right">
+					<div class="basicRemaining color-gray" id="advRoundRemaining">
+						<div class="curr-timer-label">Rounds Remaining</div>
+						<div id="roundsRemaining" class="curr-timer-data"></div>
+					</div>
+					
+					<div class="basicRemaining color-darkgray" id="advRepeatRemaining" style="display:none;margin-top: 2px;">
+						<div class="curr-timer-label">Repeats Remaining</div>
+						<div id="repeatsRemaining" class="curr-timer-data"></div>
+					</div>
+					
+					<div class="basicRemaining color-black" id="advTotTimeRemaining" style="margin-top: 2px;">
+						<div class="curr-timer-label">Total Time Remaining</div>
+						<div id="totTimeRemaining" class="curr-timer-data"></div>
+					</div>
+				</div>
+				<!-- Remaining Data End -->
+			</div>
+			
+			<div style="clear:both;"></div> 
+			<div class="box-100-per color-gray" style="margin-top: 7px;">
+				<div class="bottom-button">
+					<div style="float:left;width:205px;">&nbsp;</div>
+					<div style="margin: 0 auto;/*width:200px;*/">   
+						<div style="float:left;width:100px;cursor:pointer;display:none;" id="divResume" onclick='resumeTimer();'>
+							<div style="float:left;"><img src="images/resume.png" title="Resume" alt="Resume"></div> 
+							<div style="float:left;padding: 1px 0 0 7px;">Resume</div>
+						</div> 
+						<div style="float:left;width:245px;cursor:pointer" id="divStart" >
+							<div style="float:left; width:80px;" onclick='CreateTimer("timer");'>
+								<div style="float:left;"><img src="images/start.png" title="Play" alt="Play"></div> 
+								<div style="float:left;padding: 1px 0 0 7px;">Start</div>
+							</div> 
+						</div>
+						<div style="float:left;width:80px;cursor:pointer;display:none;" id="divPause" onclick='pauseTimer();'>
+							<div style="float:left;"><img src="images/pause.png" title="Pause" alt="Pause"></div> 
+							<div style="float:left;padding: 1px 0 0 7px;">Pause</div>
+						</div> 
+						<div style="float:left;width:80px;cursor:pointer;display:none;" id="divStop" onclick='stopTimer();'>
+							<div style="float:left;"><img src="images/stop.png" title="Stop" alt="Stop"></div> 
+							<div style="float:left;padding: 1px 0 0 7px;">Stop</div>
+						</div> 
+					</div>
+					<div style="float:left;width:307px;margin-left: 15px;" id="timerMsg"></div>
+				</div>
+			</div>
+		   
+		   <div id="transbox" style="top:-88px;left:0px;position: absolute;display:none;">&nbsp;</div>
+		   <div class="box-100-per" style="visibility: hidden;"><span id="tt_sound"></span></div>
+		   <div style="visibility: hidden;">
+				<audio controls><source src="sounds/3-2-1.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/WarmUp.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/CoolDown.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/Bell.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/LoIntensity.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/HiIntensity.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/Rest.mp3" type="audio/mp3"></audio>
+				<audio controls><source src="sounds/NextRound.mp3" type="audio/mp3"></audio>
+		   </div>
+		</div>
+		<!-- Timer Div End Here -->  
+
+		<!-- Listing Start Here -->
+		<div class="timermain" id="listingDiv" style="display:none;"></div>
+		<!-- Listing End Here -->
+	</body>
+</html>
